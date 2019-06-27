@@ -1,0 +1,9 @@
+import pandas as pd 
+
+total = pd.DataFrame()
+for i in range(2001,2019):
+    extension = '.xls' if i < 2013 else '.xlsx'
+    current_file = pd.read_excel("data/"+str(i)+extension)
+    current_file["Date"] = pd.to_datetime(current_file["Date"])
+    total = pd.concat([total,current_file], sort=False)
+total.to_csv("data/total_data.csv")
