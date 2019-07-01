@@ -1,0 +1,11 @@
+[{
+	"id": 1,
+	"names": ["Gigel W. Marius", "Gigel Wiggle Marius"],
+	"birthday": "2002-12-25",
+	"height": 180,
+	"weight": 70,
+	"plays": "Right-handed",
+    "backhand": "One-handed",
+    "turnned_pro":"1998-01-01",
+	"country": "Romania"
+}]
