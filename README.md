@@ -34,3 +34,11 @@ Useful tools:
 https://github.com/opencv/cvat
 
 We still need to find an existing dataset of quality video of players to use or we will have to create such a dataset ourselfs. 
+
+Video:
+http://rgfootball.net/viewforum.php?f=227
+
+Player tracking:
+https://github.com/sethah/deeptennis
+
+
