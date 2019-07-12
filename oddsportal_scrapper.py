@@ -9,6 +9,9 @@ import requests
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait # available since 2.4.0
+from selenium.webdriver.support import expected_conditions as EC # available since 2.26.0
 
 import argparse
 
@@ -60,6 +63,12 @@ def login(username, password, c):
     password_box.send_keys(password)
     username_box.send_keys(Keys.ENTER)
     # time.sleep(2) #todo change with wait to load
+
+def wait_for_element(c,element_selector):
+    try:
+        element = WebDriverWait(c, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, element_selector)))
+    finally:
+        return
 
 
 with requests.get(start_url, headers=headers) as r:
@@ -117,9 +126,11 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
         tournament_name = tournament_name.replace("Results & Historical Odds", "").strip()
         print("No surface type found in : ", full_link)
 
+    wait_for_element(c,"#col-content > div.main-menu2.main-menu-gray > ul.main-filter > li > span > strong > a")
+
     tournmanet_year_links = c.find_element_by_css_selector(
         "#col-content > div.main-menu2.main-menu-gray > ul.main-filter").find_elements_by_css_selector(
-        "li > span > strong > a") #todo make sure it is loaded
+        "li > span > strong > a")
     tournmanet_year_links = [e.get_attribute("href") for e in tournmanet_year_links]
 
     print("Tournament ID", index + T_START_INDEX)
@@ -188,8 +199,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                 sets = result[1][1:-1].split(", ")
             else:
                 sets = []
-
-            #todo wait for table to load
+            
+            wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
             try:
                 show_more_exists = c.find_element_by_css_selector(
                     "#odds-data-table > div.table-container > table.table-main.detail-odds.sortable > tfoot > tr.odd > td > a")
@@ -214,6 +225,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                 login(username, password, c)
                 c.get(match_link)
                 # time.sleep(2) #todo make sure page is loaded and table loaded
+                
+                wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
                 odds_table = c.find_element_by_css_selector(
                     "#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
 
