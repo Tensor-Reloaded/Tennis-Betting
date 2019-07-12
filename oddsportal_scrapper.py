@@ -65,7 +65,7 @@ def login(username, password, c):
 
 def wait_for_element(c,element_selector):
     try:
-        element = WebDriverWait(c, 15).until(EC.presence_of_element_located((By.CSS_SELECTOR, element_selector)))
+        element = WebDriverWait(c, 20).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, element_selector)))
     finally:
         return
 
@@ -169,8 +169,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
         for match_idx, match_link in enumerate(match_links):
 
-            print("Match ID", match_idx)
-            print("Matches in tournament remainig", len(match_links) - match_idx)
+            # print("Match ID", match_idx)
+            # print("Matches in tournament remainig", len(match_links) - match_idx)
 
             match_time = players = final_score = info_val = ""
             odds = list()
@@ -179,7 +179,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
             players = c.find_element_by_css_selector("#col-content > h1").get_attribute("textContent")
             players = re.sub('<[^>]+>', '', players).split('-')
-
+            
+            wait_for_element(c,"#col-content > p.date.datet")
             match_time = c.find_element_by_css_selector("#col-content > p.date.datet").get_attribute(
                 "textContent")
             match_time = datetime.datetime.strptime(match_time.replace("  ", " ").replace("Today",
