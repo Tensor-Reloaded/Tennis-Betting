@@ -176,6 +176,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
             players = c.find_element_by_css_selector("#col-content > h1").get_attribute("textContent")
             players = re.sub('<[^>]+>', '', players).split('-')
             
+            wait_for_element(c,"#col-content > p.date.datet")
+
             match_time = c.find_element_by_css_selector("#col-content > p.date.datet").get_attribute(
                 "textContent")
             match_time = datetime.datetime.strptime(match_time.replace("  ", " ").replace("Today",
@@ -200,7 +202,7 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                     "textContent") not in ["Home/Away"]:
                 continue
             
-            # wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+            wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
             odds_table = c.find_element_by_css_selector("#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
 
             try:
