@@ -1,4 +1,5 @@
 import os.path
+import sys
 import datetime
 import os.path
 import re
@@ -51,10 +52,6 @@ if args.headless:
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.headless = True
 
-
-
-
-
 def login(username, password, c):
     c.get("https://www.oddsportal.com/login/")
     username_box = c.find_element_by_name("login-username")
@@ -65,7 +62,7 @@ def login(username, password, c):
 
 def wait_for_element(c,element_selector):
     try:
-        element = WebDriverWait(c, 20).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, element_selector)))
+        element = WebDriverWait(c, 15, poll_frequency=0.1).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, element_selector)))
     finally:
         return
 
@@ -75,7 +72,6 @@ with requests.get(start_url, headers=headers) as r:
 links = list(map(lambda x: x.decode(), links))
 
 c = Chrome(executable_path=chrome_executable_path, options=options)
-
 save_interval = args.save_interval
 
 T_START_INDEX = min(max(0, args.T_ID_START), len(links))
@@ -165,22 +161,21 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
         print("Tournament year ID", year_index)
         print("Tournament years remaining", len(tournmanet_year_links) - year_index)
-
+        print("Number of matches this year:",len(match_links))
 
         for match_idx, match_link in enumerate(match_links):
-
-            # print("Match ID", match_idx)
-            # print("Matches in tournament remainig", len(match_links) - match_idx)
-
+            print("Match ID:", match_idx,", remaining:", len(match_links) - match_idx, end='\r')
+            sys.stdout.flush()
             match_time = players = final_score = info_val = ""
             odds = list()
 
             c.get(match_link)
 
+            wait_for_element(c,"#col-content > h1")
+
             players = c.find_element_by_css_selector("#col-content > h1").get_attribute("textContent")
             players = re.sub('<[^>]+>', '', players).split('-')
             
-            wait_for_element(c,"#col-content > p.date.datet")
             match_time = c.find_element_by_css_selector("#col-content > p.date.datet").get_attribute(
                 "textContent")
             match_time = datetime.datetime.strptime(match_time.replace("  ", " ").replace("Today",
@@ -200,10 +195,16 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
             else:
                 sets = []
             
-            wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+            wait_for_element(c,"#bettype-tabs > ul > li.first.active")
+            if c.find_element_by_css_selector("#bettype-tabs > ul > li.first.active").get_attribute(
+                    "textContent") not in ["Home/Away"]:
+                continue
+            
+            # wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+            odds_table = c.find_element_by_css_selector("#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+
             try:
-                show_more_exists = c.find_element_by_css_selector(
-                    "#odds-data-table > div.table-container > table.table-main.detail-odds.sortable > tfoot > tr.odd > td > a")
+                show_more_exists = odds_table.find_element_by_css_selector("tfoot > tr.odd > td > a")
             except:
                 show_more_exists = False
 
@@ -212,24 +213,13 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                     "textContent"):
                 show_more_exists.click()
             
-            
-            wait_for_element(c,"#bettype-tabs > ul > li.first.active")
-            if c.find_element_by_css_selector("#bettype-tabs > ul > li.first.active").get_attribute(
-                    "textContent") not in ["Home/Away"]:
-                continue
-
-            odds_table = c.find_element_by_css_selector(
-                "#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
-            # odds_body = odds_table.find_element_by_css_selector("tbody")
             if "Log in to display the odds!" in odds_table.find_element_by_css_selector("tfoot").get_attribute(
                     "textContent"):
                 print("Not loged in")
                 login(username, password, c)
                 c.get(match_link)
-                
                 wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
-                odds_table = c.find_element_by_css_selector(
-                    "#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+                odds_table = c.find_element_by_css_selector("#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
 
             odds_body = odds_table.find_element_by_css_selector("tbody")
 
@@ -244,7 +234,7 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                 odds[bookie] = rates
             matches_row = [country, surface, str(match_time), players, score, sets, odds, int(tournament_year), doubles, prize_money, sex]
             df_matches.loc[tournament_id + ": " + "-".join(players)] = matches_row
-
+    print("\n")
     if (index + 1) % save_interval == 0 or index + 1 == T_END_INDEX:
         df_matches.to_csv(matches_fd, header=False)
         df_matches = pd.DataFrame(
