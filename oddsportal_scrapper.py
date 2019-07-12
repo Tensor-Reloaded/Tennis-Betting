@@ -62,7 +62,6 @@ def login(username, password, c):
     username_box.send_keys(username)
     password_box.send_keys(password)
     username_box.send_keys(Keys.ENTER)
-    # time.sleep(2) #todo change with wait to load
 
 def wait_for_element(c,element_selector):
     try:
@@ -211,7 +210,9 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                     "textContent") and "Click to show 0 more bookmakers!" not in show_more_exists.get_attribute(
                     "textContent"):
                 show_more_exists.click()
-
+            
+            
+            wait_for_element(c,"#bettype-tabs > ul > li.first.active")
             if c.find_element_by_css_selector("#bettype-tabs > ul > li.first.active").get_attribute(
                     "textContent") not in ["Home/Away"]:
                 continue
@@ -224,7 +225,6 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                 print("Not loged in")
                 login(username, password, c)
                 c.get(match_link)
-                # time.sleep(2) #todo make sure page is loaded and table loaded
                 
                 wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
                 odds_table = c.find_element_by_css_selector(
