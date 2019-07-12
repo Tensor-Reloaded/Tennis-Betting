@@ -1,0 +1,68 @@
+tournament_id,year,doubles,prize_money,surface,sex
+Kenitra Challenger Men - 2016,2016,False,"€42,500",clay,men
+Kenitra Challenger Men - 2015,2015,False,"€42,500",clay,men
+Kenitra Challenger Men - 2014,2014,False,"€42,500",clay,men
+Kenitra Challenger Men - 2013,2013,False,"€30,000",clay,men
+Marrakech Challenger Men - 2012,2012,False,"€30,000",clay,men
+Marrakech Challenger Men - 2011,2011,False,"€42,500",clay,men
+Marrakech Challenger Men - 2010,2010,False,"€106,500",clay,men
+Marrakech Challenger Men - 2009,2009,False,"€106,500",clay,men
+Meknes Challenger Men - 2016,2016,False,"€42,500",clay,men
+Meknes Challenger Men - 2015,2015,False,"€42,500",clay,men
+Meknes Challenger Men - 2014,2014,False,"€42,500",clay,men
+Meknes Challenger Men - 2013,2013,False,"€30,000",clay,men
+Meknes Challenger Men - 2012,2012,False,"€30,000",clay,men
+Meknes Challenger Men - 2011,2011,False,"€30,000",clay,men
+Meknes Challenger Men - 2010,2010,False,"€30,000",clay,men
+Meknes Challenger Men - 2009,2009,False,"€30,000",clay,men
+Mohammedia Challenger Men - 2016,2016,False,"€42,500",clay,men
+Mohammedia Challenger Men - 2015,2015,False,"€42,500",clay,men
+Mohammedia Challenger Men - 2014,2014,False,"€42,500",clay,men
+Rabat Challenger Men - 2012,2012,False,"€30,000",clay,men
+Rabat Challenger Men - 2011,2011,False,"€42,500",clay,men
+Rabat Challenger Men - 2010,2010,False,"€42,500",clay,men
+Rabat Challenger Men - 2009,2009,False,"€42,500",clay,men
+Tanger Challenger Men - 2013,2013,False,"€30,000",clay,men
+Tanger Challenger Men - 2010,2010,False,"€30,000",clay,men
+Tanger Challenger Men - 2009,2009,False,"€30,000",clay,men
+tournament_id,year,doubles,prize_money,surface,sex
+ATP Hertogenbosch - 2019,2019,False,"€635,750",grass,men
+ATP Hertogenbosch - 2018,2018,False,"€612,755",grass,men
+ATP Hertogenbosch - 2017,2017,False,"€589,185",grass,men
+ATP Hertogenbosch - 2016,2016,False,"€635,645",grass,men
+ATP Hertogenbosch - 2015,2015,False,"€604,155",grass,men
+ATP Hertogenbosch - 2014,2014,False,"€485,760",grass,men
+ATP Hertogenbosch - 2013,2013,False,"€467,800",grass,men
+ATP Hertogenbosch - 2012,2012,False,"€450,000",grass,men
+ATP Hertogenbosch - 2011,2011,False,"€450,000",grass,men
+ATP Hertogenbosch - 2010,2010,False,"€450,000",grass,men
+ATP Hertogenbosch - 2009,2009,False,"€450,000",grass,men
+ATP Rotterdam - 2019,2019,False,"€1,961,160",hard,men
+ATP Rotterdam - 2018,2018,False,"€1,862,925",hard,men
+ATP Rotterdam - 2017,2017,False,"€1,724,930",hard,men
+ATP Rotterdam - 2016,2016,False,"€1,722,820",hard,men
+ATP Rotterdam - 2015,2015,False,"€1,600,855",hard,men
+ATP Rotterdam - 2014,2014,False,"€1,500,755",hard,men
+ATP Hertogenbosch - 2019,2019,False,"€635,750",grass,men
+ATP Hertogenbosch - 2018,2018,False,"€612,755",grass,men
+ATP Hertogenbosch - 2017,2017,False,"€589,185",grass,men
+ATP Hertogenbosch - 2016,2016,False,"€635,645",grass,men
+ATP Hertogenbosch - 2015,2015,False,"€604,155",grass,men
+ATP Hertogenbosch - 2014,2014,False,"€485,760",grass,men
+ATP Hertogenbosch - 2013,2013,False,"€467,800",grass,men
+ATP Hertogenbosch - 2012,2012,False,"€450,000",grass,men
+ATP Hertogenbosch - 2011,2011,False,"€450,000",grass,men
+ATP Hertogenbosch - 2010,2010,False,"€450,000",grass,men
+ATP Hertogenbosch - 2009,2009,False,"€450,000",grass,men
+tournament_id,year,doubles,prize_money,surface,sex
+ATP Rotterdam - 2019,2019,False,"€1,961,160",hard,men
+ATP Rotterdam - 2018,2018,False,"€1,862,925",hard,men
+ATP Rotterdam - 2017,2017,False,"€1,724,930",hard,men
+ATP Rotterdam - 2016,2016,False,"€1,722,820",hard,men
+ATP Rotterdam - 2015,2015,False,"€1,600,855",hard,men
+ATP Rotterdam - 2014,2014,False,"€1,500,755",hard,men
+ATP Rotterdam - 2013,2013,False,"€1,575,875",hard,men
+ATP Rotterdam - 2012,2012,False,"€1,502,500",hard,men
+ATP Rotterdam - 2011,2011,False,"€1,445,000",hard,men
+ATP Rotterdam - 2010,2010,False,"€1,445,000",hard,men
+ATP Rotterdam - 2009,2009,False,"€1,445,000",hard,men
