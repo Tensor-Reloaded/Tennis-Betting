@@ -74,6 +74,8 @@ links = list(map(lambda x: x.decode(), links))
 c = Chrome(executable_path=chrome_executable_path, options=options)
 save_interval = args.save_interval
 
+login(username, password, c)
+
 T_START_INDEX = min(max(0, args.T_ID_START), len(links))
 T_END_INDEX = max(T_START_INDEX, min(len(links), args.T_ID_END))
 
@@ -241,12 +243,15 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                                          columns[2].get_attribute("textContent").strip()]
                                 odds[bookie] = rates
                             except:
+                                print("Skipped an odd")
                                 continue
                         matches_row = [country, surface, str(match_time), players, score, sets, odds, int(tournament_year), doubles, prize_money, sex]
                         df_matches.loc[tournament_id + ": " + "-".join(players)] = matches_row
                     except:
+                        print("Skipped a match")
                         continue
             except:
+                print("Skipped a year")
                 continue
         print("\n")
         if (index + 1) % save_interval == 0 or index + 1 == T_END_INDEX:
@@ -260,6 +265,7 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
             matches_fd.flush()
             os.fsync(matches_fd.fileno())
     except:
+        print("Skipped a tournament")
         continue
 
 c.close()
