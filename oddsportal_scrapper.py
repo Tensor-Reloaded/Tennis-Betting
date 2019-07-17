@@ -62,7 +62,7 @@ def login(username, password, c):
 
 def wait_for_element(c,element_selector):
     try:
-        element = WebDriverWait(c, 15, poll_frequency=0.1).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, element_selector)))
+        element = WebDriverWait(c, 3, poll_frequency=0.4).until(EC.element_located_to_be_selected((By.CSS_SELECTOR, element_selector)))
     finally:
         return
 
@@ -162,6 +162,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                             pass
                         elif 'deactivate' in child.get_attribute('class'):
                             match_links.append(child.find_element_by_css_selector('td > a').get_attribute("href"))
+                    except KeyboardInterrupt:
+                        exit()
                     except:
                         continue
 
@@ -171,19 +173,19 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
                 for match_idx, match_link in enumerate(match_links):
                     try:
-                        print("Match ID:", match_idx,", remaining:", len(match_links) - match_idx, end='\r')
+                        c.get(match_link)
+
+                        print("Match ID:", match_idx,", remaining:", len(match_links) - match_idx, end='                              \r')
                         sys.stdout.flush()
                         match_time = players = final_score = info_val = ""
                         odds = list()
 
-                        c.get(match_link)
-
-                        wait_for_element(c,"#col-content > h1")
+                        #wait_for_element(c,"#col-content > h1")
 
                         players = c.find_element_by_css_selector("#col-content > h1").get_attribute("textContent")
                         players = re.sub('<[^>]+>', '', players).split('-')
 
-                        wait_for_element(c,"#col-content > p.date.datet")
+                        #wait_for_element(c,"#col-content > p.date.datet")
 
                         match_time = c.find_element_by_css_selector("#col-content > p.date.datet").get_attribute(
                             "textContent")
@@ -204,12 +206,12 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
                         else:
                             sets = []
 
-                        wait_for_element(c,"#bettype-tabs > ul > li.first.active")
+                        #wait_for_element(c,"#bettype-tabs > ul > li.first.active")
                         if c.find_element_by_css_selector("#bettype-tabs > ul > li.first.active").get_attribute(
                                 "textContent") not in ["Home/Away"]:
                             continue
 
-                        wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
+                        #wait_for_element(c,"#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
                         odds_table = c.find_element_by_css_selector("#odds-data-table > div.table-container > table.table-main.detail-odds.sortable")
 
                         try:
@@ -234,22 +236,23 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
                         odds = {}
                         for odd in odds_body.find_elements_by_css_selector("tr.lo"):
-                            try:
-                                columns = odd.find_elements_by_css_selector("td")
-                                if len(columns) < 3:
-                                    continue
-                                bookie = columns[0].get_attribute("textContent").strip()
-                                rates = [columns[1].get_attribute("textContent").strip(),
-                                         columns[2].get_attribute("textContent").strip()]
-                                odds[bookie] = rates
-                            except:
-                                print("Skipped an odd")
+                            columns = odd.find_elements_by_css_selector("td")
+                            if len(columns) < 3:
                                 continue
+                            bookie = columns[0].get_attribute("textContent").strip()
+                            rates = [columns[1].get_attribute("textContent").strip(),
+                                        columns[2].get_attribute("textContent").strip()]
+                            odds[bookie] = rates
+
                         matches_row = [country, surface, str(match_time), players, score, sets, odds, int(tournament_year), doubles, prize_money, sex]
                         df_matches.loc[tournament_id + ": " + "-".join(players)] = matches_row
+                    except KeyboardInterrupt:
+                        exit()
                     except:
                         print("Skipped a match")
                         continue
+            except KeyboardInterrupt:
+                exit()
             except:
                 print("Skipped a year")
                 continue
@@ -264,6 +267,8 @@ for index, link in enumerate(links[T_START_INDEX:T_END_INDEX]):
 
             matches_fd.flush()
             os.fsync(matches_fd.fileno())
+    except KeyboardInterrupt:
+        exit()
     except:
         print("Skipped a tournament")
         continue
